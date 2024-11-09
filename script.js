@@ -67,6 +67,9 @@ buttons.forEach( (button) => {
 
 function displayPopulate (number) {
     displayArray.push(number);
+
+    if (displayArray.length > 9)
+    return;
     
     // probably should try to find out how to keep separate every three numbers
     // for (let i = 0; i < displayArray.length; i++) {
