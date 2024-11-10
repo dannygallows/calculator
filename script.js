@@ -47,20 +47,10 @@ buttons.forEach( (button) => {
                 operator = "";
                 break;
             case "←":
-                operatorClicked(button.textContent);
-                break;
-            case "%":
-                console.log("ok");
-                break;
+            case "+/-":
             case "/":
-                operatorClicked(button.textContent);
-                break;
             case "*":
-                operatorClicked(button.textContent);
-                break;
             case "-":
-                operatorClicked(button.textContent);
-                break;
             case "+":
                 operatorClicked(button.textContent);
                 break;
@@ -72,6 +62,7 @@ buttons.forEach( (button) => {
                 display.textContent = result;
                 x = result;
                 y = "";
+                isTypingSecondOperand = false;
                 break;
             default:
                 displayPopulate(button.textContent);
@@ -81,6 +72,7 @@ buttons.forEach( (button) => {
 
 
 function displayPopulate (number) {
+    console.log(`x ${x}, y ${y}, result ${result}`);    
 
     // // probably should try to find out how to keep separate every three numbers
     // // for (let i = 0; i < displayArray.length; i++) {
@@ -89,7 +81,7 @@ function displayPopulate (number) {
 
     if (number == "0" && x == 0 && !isTypingSecondOperand) return;
 
-    // condition for negative number inputted
+    //condition for negative number inputted
     if (operator == "-" & x == 0) {
         y = number;
         result = y - (y * 2);
@@ -101,6 +93,8 @@ function displayPopulate (number) {
         operator = "";
         return;
     }
+
+
     // calculation if we are on the first number, else second number
     if (!isTypingSecondOperand) {
         if (x == 0) {
@@ -118,6 +112,19 @@ function displayPopulate (number) {
 }
 
 function operatorClicked (inputOperator) {
+    console.log(`x ${x}, y ${y}, result ${result}`);
+
+    if (inputOperator == "+/-") {
+        if (!isTypingSecondOperand && x != 0) {
+            x = x - (x * 2);
+            display.textContent = x;
+        }
+        else if (isTypingSecondOperand && y != "") {
+            y = y - (y * 2);
+            display.textContent = y;
+        }
+        return;
+    }
 
     if (inputOperator == "←") {
         if (!isTypingSecondOperand && display.textContent.length > 1) {
@@ -136,6 +143,7 @@ function operatorClicked (inputOperator) {
         x = "";
         y = "";
         isTypingSecondOperand = false;
+        return;
     }
 
     if (x == 0 && y == "") {
