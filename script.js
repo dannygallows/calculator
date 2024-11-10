@@ -83,6 +83,10 @@ function operate (a, b, operator) {
 
 function displayPopulate (number) {
 
+    if (number === "." && display.textContent.includes(".")) {
+        return;
+    }
+
     if (number == "0" && x == 0 && !isTypingSecondOperand) return;
 
     //condition for negative number inputted
@@ -95,14 +99,6 @@ function displayPopulate (number) {
         y = "";
         result = "";
         operator = "";
-        return;
-    }
-
-    if (dotCount == 0 && number == ".") {
-        dotCount++;
-    }
-    else if (dotCount > 0) {
-        dotCount = 0; 
         return;
     }
 
