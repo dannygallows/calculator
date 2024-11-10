@@ -7,7 +7,6 @@ let y = "";
 let result = 0;
 let isTypingSecondOperand = false;
 
-
 function add(a, b) {
     return +a + +b;
 };
@@ -79,7 +78,6 @@ buttons.forEach( (button) => {
     })
 })
 
-
 function displayPopulate (number) {
     console.log(`x ${x}, y ${y}, result ${result}`);    
 
@@ -102,7 +100,6 @@ function displayPopulate (number) {
         operator = "";
         return;
     }
-
 
     // calculation if we are on the first number, else second number
     if (!isTypingSecondOperand) {
@@ -162,11 +159,9 @@ function operatorClicked (inputOperator) {
         y = "";
         }
     }
-
     operator = inputOperator;
     isTypingSecondOperand = true;
 }
-
 
 // Function to resize font based on the length of the text
 function adjustFontSize() {
