@@ -146,18 +146,13 @@ function operatorClicked (inputOperator) {
         return;
     }
 
-    if (x == 0 && y == "") {
-        operator = inputOperator; 
-        isTypingSecondOperand = true;
-    }
-    else if (x != 0 && y == "") {
-        operator = inputOperator; 
-        isTypingSecondOperand = true;
-    }
-    else if (x != 0 && y != "") {
-        result = +operate(x,y,operator).toFixed(2);
+    if (x !== "" && y !== "") {
+        result = +operate(x, y, operator).toFixed(2);
         display.textContent = result;
         x = result;
         y = "";
     }
+
+    operator = inputOperator;
+    isTypingSecondOperand = true;
 }
