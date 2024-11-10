@@ -51,23 +51,19 @@ buttons.forEach( (button) => {
                 console.log("ok");
                 break;
             case "/":
-                operator = button.textContent;
-                isTypingSecondOperand = true;
+                operatorClicked(button.textContent);
                 break;
             case "*":
-                operator = button.textContent;
-                isTypingSecondOperand = true;
+                operatorClicked(button.textContent);
                 break;
             case "-":
-                operator = button.textContent;
-                isTypingSecondOperand = true;
+                operatorClicked(button.textContent);
                 break;
             case "+":
-                operator = button.textContent;
-                isTypingSecondOperand = true;
+                operatorClicked(button.textContent);
                 break;
-            case ",":
-                console.log("ok");
+            case ".":
+                displayPopulate(button.textContent);
                 break;
             case "=":
                 result = operate(x,y,operator);
@@ -89,6 +85,8 @@ function displayPopulate (number) {
     // //     if (i % 3 == 0) displayArray.push(" ");
     // // }
 
+    if (number == "0" && x == "") return;
+
     if (!isTypingSecondOperand) {
         x = x + number;
         display.textContent = x;
@@ -100,5 +98,18 @@ function displayPopulate (number) {
 
 }
 
-
-console.log(operate(2,2,"/"));
+function operatorClicked (inputOperator) {
+    if (x == "" && y == "") {
+        operator = inputOperator; 
+    }
+    else if (x != "" && y == "") {
+        operator = inputOperator; 
+        isTypingSecondOperand = true;
+    }
+    else if (x != "" && y != "") {
+        result = operate(x,y,operator);
+        display.textContent = result;
+        x = result;
+        y = "";
+    }
+}
