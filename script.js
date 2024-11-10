@@ -66,7 +66,7 @@ buttons.forEach( (button) => {
                 displayPopulate(button.textContent);
                 break;
             case "=":
-                result = operate(x,y,operator);
+                result = +operate(x,y,operator).toFixed(2);
                 display.textContent = result;
                 x = result;
                 y = "";
@@ -107,7 +107,7 @@ function operatorClicked (inputOperator) {
         isTypingSecondOperand = true;
     }
     else if (x != "" && y != "") {
-        result = operate(x,y,operator);
+        result = +operate(x,y,operator).toFixed(2);
         display.textContent = result;
         x = result;
         y = "";
