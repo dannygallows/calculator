@@ -1,41 +1,12 @@
 const display = document.querySelector(".display");
 updateDisplay("0");
 
-let x = 0;
+let x = "";
 let operator = "";
 let y = "";
 let result = 0;
 let isTypingSecondOperand = false;
-
-function add(a, b) {
-    return +a + +b;
-};
-function subtract(a, b) {
-    return +a - +b;
-};
-function multiply(a, b) {
-    return +a * +b;
-};
-function divide(a, b) {
-    if (+b === 0) {
-        return "Division by 0";
-    }
-    return +a / +b;
-};
-
-function operate (a, b, operator) {
-
-    switch (operator) {
-        case "+":
-            return add(a,b);
-        case "-":
-            return subtract(a,b);
-        case "*":
-            return multiply(a,b);
-        case "/":
-            return divide(a,b);
-    } 
-}
+let dotCount = 0;
 
 let buttons = document.querySelectorAll("button");
 buttons.forEach( (button) => {
@@ -66,7 +37,7 @@ buttons.forEach( (button) => {
                     x = ""; 
                     y = "";
                 } else {
-                    updateDisplay(+result.toFixed(2));
+                    updateDisplay(+result.toFixed(4));
                     x = result;
                     y = "";
                 }
@@ -78,13 +49,39 @@ buttons.forEach( (button) => {
     })
 })
 
-function displayPopulate (number) {
-    console.log(`x ${x}, y ${y}, result ${result}`);    
+function add(a, b) {
+    return +a + +b;
+};
+function subtract(a, b) {
+    return +a - +b;
+};
+function multiply(a, b) {
+    return +a * +b;
+};
+function divide(a, b) {
+    if (+b === 0) {
+        return "Division by 0";
+    }
+    return +a / +b;
+};
 
-    // // probably should try to find out how to keep separate every three numbers
-    // // for (let i = 0; i < displayArray.length; i++) {
-    // //     if (i % 3 == 0) displayArray.push(" ");
-    // // }
+function operate (a, b, operator) {
+
+    if (b == "") return;
+
+    switch (operator) {
+        case "+":
+            return add(a,b);
+        case "-":
+            return subtract(a,b);
+        case "*":
+            return multiply(a,b);
+        case "/":
+            return divide(a,b);
+    } 
+}
+
+function displayPopulate (number) {
 
     if (number == "0" && x == 0 && !isTypingSecondOperand) return;
 
@@ -98,6 +95,14 @@ function displayPopulate (number) {
         y = "";
         result = "";
         operator = "";
+        return;
+    }
+
+    if (dotCount == 0 && number == ".") {
+        dotCount++;
+    }
+    else if (dotCount > 0) {
+        dotCount = 0; 
         return;
     }
 
@@ -123,11 +128,11 @@ function operatorClicked (inputOperator) {
     if (inputOperator == "+/-") {
         if (!isTypingSecondOperand && x != 0) {
             x = x - (x * 2);
-            updateDisplay(+x.toFixed(2));
+            updateDisplay(+x.toFixed(4));
         }
         else if (isTypingSecondOperand && y != "") {
             y = y - (y * 2);
-            updateDisplay(+y.toFixed(2));
+            updateDisplay(+y.toFixed(4));
         }
         return;
     }
@@ -154,7 +159,7 @@ function operatorClicked (inputOperator) {
             y = "";
         }
         else {
-        updateDisplay(+result.toFixed(2));
+        updateDisplay(+result.toFixed(4));
         x = result;
         y = "";
         }
@@ -165,10 +170,9 @@ function operatorClicked (inputOperator) {
 
 // Function to resize font based on the length of the text
 function adjustFontSize() {
-    let fontSize = 50; // Start with the default font size
+    let fontSize = 50; // default font size
     display.style.fontSize = fontSize + "px";
 
-    // Shrink font size until the text fits within the display width
     while (display.scrollWidth > display.clientWidth && fontSize > 10) {
         fontSize -= 1;
         display.style.fontSize = fontSize + "px";
