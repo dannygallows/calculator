@@ -1,6 +1,7 @@
 const display = document.querySelector(".display");
+display.textContent = "0";
 
-let x = "";
+let x = 0;
 let operator = "";
 let y = "";
 let result = 0;
@@ -85,9 +86,26 @@ function displayPopulate (number) {
     // //     if (i % 3 == 0) displayArray.push(" ");
     // // }
 
-    if (number == "0" && x == "") return;
+    if (number == "0" && x == 0 && !isTypingSecondOperand) return;
+
+    if (operator == "-" & x == 0) {
+        y = number;
+        result = y - (y * 2);
+        console.log(result);
+        display.textContent = result;
+        x = result;
+        y = "";
+        result = "";
+        operator = "";
+        return;
+    }
 
     if (!isTypingSecondOperand) {
+        if (x == 0) {
+            x = number;
+            display.textContent = x;
+            return;
+        }
         x = x + number;
         display.textContent = x;
     }
@@ -95,18 +113,26 @@ function displayPopulate (number) {
         y = y + number;
         display.textContent = y;
     }
-
 }
 
 function operatorClicked (inputOperator) {
-    if (x == "" && y == "") {
-        operator = inputOperator; 
+    
+    if (inputOperator == "/" && y == "0") {
+        display.textContent = "Division by 0";
+        x = "";
+        y = "";
+        isTypingSecondOperand = false;
     }
-    else if (x != "" && y == "") {
+
+    if (x == 0 && y == "") {
         operator = inputOperator; 
         isTypingSecondOperand = true;
     }
-    else if (x != "" && y != "") {
+    else if (x != 0 && y == "") {
+        operator = inputOperator; 
+        isTypingSecondOperand = true;
+    }
+    else if (x != 0 && y != "") {
         result = +operate(x,y,operator).toFixed(2);
         display.textContent = result;
         x = result;
