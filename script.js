@@ -44,9 +44,10 @@ buttons.forEach( (button) => {
                 y = "";
                 display.textContent = "0";
                 isTypingSecondOperand = false;
+                operator = "";
                 break;
             case "←":
-                console.log("ok");
+                operatorClicked(button.textContent);
                 break;
             case "%":
                 console.log("ok");
@@ -88,6 +89,7 @@ function displayPopulate (number) {
 
     if (number == "0" && x == 0 && !isTypingSecondOperand) return;
 
+    // condition for negative number inputted
     if (operator == "-" & x == 0) {
         y = number;
         result = y - (y * 2);
@@ -99,7 +101,7 @@ function displayPopulate (number) {
         operator = "";
         return;
     }
-
+    // calculation if we are on the first number, else second number
     if (!isTypingSecondOperand) {
         if (x == 0) {
             x = number;
@@ -116,6 +118,18 @@ function displayPopulate (number) {
 }
 
 function operatorClicked (inputOperator) {
+
+    if (inputOperator == "←") {
+        if (!isTypingSecondOperand && display.textContent.length > 1) {
+            x = x.slice(0, -1);
+            display.textContent= x;
+        }
+        else if (isTypingSecondOperand && display.textContent.length > 1) {
+            y = y.slice(0, -1);
+            display.textContent= y;
+        }
+        return;
+    }
     
     if (inputOperator == "/" && y == "0") {
         display.textContent = "Division by 0";
