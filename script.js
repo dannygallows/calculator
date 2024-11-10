@@ -123,11 +123,11 @@ function operatorClicked (inputOperator) {
     if (inputOperator == "+/-") {
         if (!isTypingSecondOperand && x != 0) {
             x = x - (x * 2);
-            updateDisplay(x);
+            updateDisplay(+x.toFixed(2));
         }
         else if (isTypingSecondOperand && y != "") {
             y = y - (y * 2);
-            updateDisplay(y);
+            updateDisplay(+y.toFixed(2));
         }
         return;
     }
