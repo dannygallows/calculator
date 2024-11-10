@@ -18,11 +18,14 @@ body {
 
 .display {
     color: white;
-    /* width: 100%; */
+    width: 100%;
+    max-width: 250px;
+    height: 60px;
     background-color: black;
     padding: 10px;
     font-size: 50px;
     margin-bottom: 15px;
+    white-space: nowrap;
     text-align: right;
 }
 
@@ -38,8 +41,8 @@ body {
     flex-wrap: wrap;
     width: 100%;
     max-width: 300px; /* Adjust as needed */
-    margin: 0 auto; /* Center the container */
-    gap: 10px; /* Optional spacing between buttons */
+    margin: 0 auto; 
+    gap: 10px; 
 }
 
 button {

@@ -1,5 +1,5 @@
 const display = document.querySelector(".display");
-display.textContent = "0";
+updateDisplay("0");
 
 let x = 0;
 let operator = "";
@@ -18,6 +18,9 @@ function multiply(a, b) {
     return +a * +b;
 };
 function divide(a, b) {
+    if (+b === 0) {
+        return "Division by 0";
+    }
     return +a / +b;
 };
 
@@ -42,7 +45,7 @@ buttons.forEach( (button) => {
             case "AC":
                 x = "";
                 y = "";
-                display.textContent = "0";
+                updateDisplay("0");
                 isTypingSecondOperand = false;
                 operator = "";
                 break;
@@ -58,10 +61,16 @@ buttons.forEach( (button) => {
                 displayPopulate(button.textContent);
                 break;
             case "=":
-                result = +operate(x,y,operator).toFixed(2);
-                display.textContent = result;
-                x = result;
-                y = "";
+                result = operate(x, y, operator);
+                if (typeof result === "string") { // check if result is an error message
+                    updateDisplay(result);
+                    x = ""; 
+                    y = "";
+                } else {
+                    updateDisplay(+result.toFixed(2));
+                    x = result;
+                    y = "";
+                }
                 isTypingSecondOperand = false;
                 break;
             default:
@@ -86,7 +95,7 @@ function displayPopulate (number) {
         y = number;
         result = y - (y * 2);
         console.log(result);
-        display.textContent = result;
+        updateDisplay(result);
         x = result;
         y = "";
         result = "";
@@ -99,15 +108,15 @@ function displayPopulate (number) {
     if (!isTypingSecondOperand) {
         if (x == 0) {
             x = number;
-            display.textContent = x;
+            updateDisplay(x);
             return;
         }
         x = x + number;
-        display.textContent = x;
+        updateDisplay(x);
     }
     else {
         y = y + number;
-        display.textContent = y;
+        updateDisplay(y);
     }
 }
 
@@ -117,11 +126,11 @@ function operatorClicked (inputOperator) {
     if (inputOperator == "+/-") {
         if (!isTypingSecondOperand && x != 0) {
             x = x - (x * 2);
-            display.textContent = x;
+            updateDisplay(x);
         }
         else if (isTypingSecondOperand && y != "") {
             y = y - (y * 2);
-            display.textContent = y;
+            updateDisplay(y);
         }
         return;
     }
@@ -129,30 +138,41 @@ function operatorClicked (inputOperator) {
     if (inputOperator == "←") {
         if (!isTypingSecondOperand && display.textContent.length > 1) {
             x = x.slice(0, -1);
-            display.textContent= x;
+            updateDisplay(x);
         }
         else if (isTypingSecondOperand && display.textContent.length > 1) {
             y = y.slice(0, -1);
-            display.textContent= y;
+            updateDisplay(y);
         }
-        return;
-    }
-    
-    if (inputOperator == "/" && y == "0") {
-        display.textContent = "Division by 0";
-        x = "";
-        y = "";
-        isTypingSecondOperand = false;
         return;
     }
 
     if (x !== "" && y !== "") {
         result = +operate(x, y, operator).toFixed(2);
-        display.textContent = result;
+        updateDisplay(result);
         x = result;
         y = "";
     }
 
     operator = inputOperator;
     isTypingSecondOperand = true;
+}
+
+
+// Function to resize font based on the length of the text
+function adjustFontSize() {
+    let fontSize = 50; // Start with the default font size
+    display.style.fontSize = fontSize + "px";
+
+    // Shrink font size until the text fits within the display width
+    while (display.scrollWidth > display.clientWidth && fontSize > 10) {
+        fontSize -= 1;
+        display.style.fontSize = fontSize + "px";
+    }
+}
+
+// Call adjustFontSize() whenever you update the display text
+function updateDisplay(text) {
+    display.textContent = text;
+    adjustFontSize();
 }
