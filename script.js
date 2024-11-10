@@ -148,10 +148,19 @@ function operatorClicked (inputOperator) {
     }
 
     if (x !== "" && y !== "") {
-        result = +operate(x, y, operator).toFixed(2);
-        updateDisplay(result);
+        
+        result = operate(x, y, operator);
+        
+        if (typeof result === "string") { // check if result is an error message
+            updateDisplay(result);
+            x = ""; 
+            y = "";
+        }
+        else {
+        updateDisplay(+result.toFixed(2));
         x = result;
         y = "";
+        }
     }
 
     operator = inputOperator;
